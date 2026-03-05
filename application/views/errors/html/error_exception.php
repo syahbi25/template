@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<div style="border:1px solid #dd4814;padding-left:20px;margin:10px 0;">
+<div class="error-box">
 
 	<h4>An uncaught Exception was encountered</h4>
 
@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
 
-				<p style="margin-left:10px">
+				<p class="error-para">
 				File: <?php echo $error['file']; ?><br />
 				Line: <?php echo $error['line']; ?><br />
 				Function: <?php echo $error['function']; ?>

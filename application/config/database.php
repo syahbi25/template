@@ -69,11 +69,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $db['default'] = array(
-	'dsn'	=> '',
+	'dsn'      => '',
 	'hostname' => 'localhost',
-	'username' => '',
+	// Update these credentials to match your local database
+	'username' => 'root',
 	'password' => '',
-	'database' => '',
+	// Change 'codeigniter' to the database name you imported (e.g. database_lengkap.sql)
+	'database' => 'codeigniter',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
