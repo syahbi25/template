@@ -33,4 +33,13 @@ class Kategori_model extends CI_Model {
 	{
 		return $this->db->delete('kategori_alat', array('id' => $id));
 	}
+
+	/**
+	 * Search kategori berdasarkan keyword
+	 */
+	public function search($keyword)
+	{
+		$this->db->like('nama_kategori', $keyword);
+		return $this->db->get('kategori_alat')->result();
+	}
 }

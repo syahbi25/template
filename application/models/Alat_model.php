@@ -46,4 +46,20 @@ class Alat_model extends CI_Model {
 		$this->db->where('id', $id);
 		return $this->db->update('alat', array('status' => $status));
 	}
+
+	/**
+	 * Search alat berdasarkan keyword
+	 */
+	public function search($keyword)
+	{
+		$this->db->select('alat.*, kategori_alat.nama_kategori');
+		$this->db->from('alat');
+		$this->db->join('kategori_alat', 'kategori_alat.id = alat.kategori_id', 'left');
+		$this->db->group_start()
+			->like('alat.nama_alat', $keyword)
+			->or_like('alat.kode_alat', $keyword)
+			->or_like('kategori_alat.nama_kategori', $keyword)
+			->group_end();
+		return $this->db->get()->result();
+	}
 }

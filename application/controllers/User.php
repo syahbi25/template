@@ -15,7 +15,13 @@ class User extends CI_Controller {
 
     public function index()
     {
-        $data['users'] = $this->User_model->get_all();
+        $search = $this->input->get('search');
+        if ($search) {
+            $data['users'] = $this->User_model->search($search);
+        } else {
+            $data['users'] = $this->User_model->get_all();
+        }
+        $data['search'] = $search;
         $this->load->view('user/index', $data);
     }
 

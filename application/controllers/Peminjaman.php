@@ -17,12 +17,24 @@ class Peminjaman extends CI_Controller {
 	 */
 	public function index()
 	{
+		// Get search keyword from GET
+		$search = $this->input->get('search');
+		
 		// Admin & Petugas lihat semua, Peminjam lihat miliknya
 		if (has_role(['admin','petugas'])) {
-			$data['peminjaman'] = $this->Peminjaman_model->get_all();
+			if ($search) {
+				$data['peminjaman'] = $this->Peminjaman_model->search($search);
+			} else {
+				$data['peminjaman'] = $this->Peminjaman_model->get_all();
+			}
 		} else {
-			$data['peminjaman'] = $this->Peminjaman_model->get_by_peminjam(get_user_id());
+			if ($search) {
+				$data['peminjaman'] = $this->Peminjaman_model->search($search, get_user_id());
+			} else {
+				$data['peminjaman'] = $this->Peminjaman_model->get_by_peminjam(get_user_id());
+			}
 		}
+		$data['search'] = $search;
 		$this->load->view('peminjaman/index', $data);
 	}
 

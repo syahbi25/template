@@ -91,4 +91,29 @@ class Peminjaman_model extends CI_Model {
 	{
 		return $this->db->count_all('peminjaman');
 	}
+
+	/**
+	 * Search peminjaman berdasarkan keyword
+	 */
+	public function search($keyword, $peminjam_id = null)
+	{
+		$this->db->select('peminjaman.*, alat.nama_alat, users.nama_lengkap as peminjam, peminjaman.keperluan as keterangan, peminjaman.tanggal_kembali_rencana as tanggal_kembali');
+		$this->db->from('peminjaman');
+		$this->db->join('alat', 'alat.id = peminjaman.alat_id', 'left');
+		$this->db->join('users', 'users.id = peminjaman.peminjam_id', 'left');
+		
+		// Search by keyword in various columns
+		$this->db->group_start()
+			->like('alat.nama_alat', $keyword)
+			->or_like('users.nama_lengkap', $keyword)
+			->or_like('peminjaman.keperluan', $keyword)
+			->group_end();
+		
+		// Filter by peminjam if provided
+		if ($peminjam_id) {
+			$this->db->where('peminjaman.peminjam_id', $peminjam_id);
+		}
+		
+		return $this->db->get()->result();
+	}
 }

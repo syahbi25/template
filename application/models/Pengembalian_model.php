@@ -25,4 +25,19 @@ class Pengembalian_model extends CI_Model {
 		$this->db->join('peminjaman', 'peminjaman.id = pengembalian.peminjaman_id', 'left');
 		return $this->db->get()->result();
 	}
+
+	/**
+	 * Search pengembalian berdasarkan keyword
+	 */
+	public function search($keyword)
+	{
+		$this->db->select('pengembalian.*, peminjaman.alat_id, peminjaman.peminjam_id');
+		$this->db->from('pengembalian');
+		$this->db->join('peminjaman', 'peminjaman.id = pengembalian.peminjaman_id', 'left');
+		$this->db->group_start()
+			->like('pengembalian.peminjaman_id', $keyword)
+			->or_like('pengembalian.kondisi_alat', $keyword)
+			->group_end();
+		return $this->db->get()->result();
+	}
 }

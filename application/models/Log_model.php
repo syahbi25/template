@@ -32,4 +32,20 @@ class Log_model extends CI_Model {
 		$this->db->order_by('created_at', 'DESC');
 		return $this->db->get()->result();
 	}
+
+	/**
+	 * Search log aktivitas berdasarkan keyword
+	 */
+	public function search($keyword)
+	{
+		$this->db->from('log_aktivitas');
+		$this->db->group_start()
+			->like('user_id', $keyword)
+			->or_like('aksi', $keyword)
+			->or_like('deskripsi', $keyword)
+			->or_like('tabel', $keyword)
+			->group_end();
+		$this->db->order_by('created_at', 'DESC');
+		return $this->db->get()->result();
+	}
 }

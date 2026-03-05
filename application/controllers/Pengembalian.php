@@ -15,18 +15,29 @@ class Pengembalian extends CI_Controller {
 
 	public function index()
 	{
+		$search = $this->input->get('search');
+		
 		// Petugas lihat semua pengembalian, peminjam lihat pengembalian sendiri
 		if (has_role(['admin','petugas'])) {
-			$data['pengembalian'] = $this->Pengembalian_model->get_all();
+			if ($search) {
+				$data['pengembalian'] = $this->Pengembalian_model->search($search);
+			} else {
+				$data['pengembalian'] = $this->Pengembalian_model->get_all();
+			}
 		} else {
 			$user_id = get_user_id();
-			// join handled in model, filter later if needed
+			if ($search) {
+				$all = $this->Pengembalian_model->search($search);
+			} else {
+				$all = $this->Pengembalian_model->get_all();
+			}
+			// Filter by user
 			$data['pengembalian'] = array();
-			$all = $this->Pengembalian_model->get_all();
 			foreach ($all as $p) {
 				if ($p->peminjam_id == $user_id) $data['pengembalian'][] = $p;
 			}
 		}
+		$data['search'] = $search;
 		$this->load->view('pengembalian/index', $data);
 	}
 

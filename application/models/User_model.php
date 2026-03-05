@@ -120,4 +120,15 @@ class User_model extends CI_Model {
 		$query = $this->db->get('users');
 		return $query->num_rows() > 0;
 	}
+
+	/**
+	 * Search user berdasarkan keyword
+	 */
+	public function search($keyword)
+	{
+		$this->db->like('username', $keyword)
+			->or_like('email', $keyword)
+			->or_like('nama_lengkap', $keyword);
+		return $this->db->get('users')->result();
+	}
 }

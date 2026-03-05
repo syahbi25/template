@@ -13,7 +13,13 @@ class Log extends CI_Controller {
 
     public function index()
     {
-        $data['logs'] = $this->Log_model->get_all();
+        $search = $this->input->get('search');
+        if ($search) {
+            $data['logs'] = $this->Log_model->search($search);
+        } else {
+            $data['logs'] = $this->Log_model->get_all();
+        }
+        $data['search'] = $search;
         $this->load->view('log/index', $data);
     }
 }

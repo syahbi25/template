@@ -13,7 +13,13 @@ class Kategori extends CI_Controller {
 
 	public function index()
 	{
-		$data['kategori'] = $this->Kategori_model->get_all();
+		$search = $this->input->get('search');
+		if ($search) {
+			$data['kategori'] = $this->Kategori_model->search($search);
+		} else {
+			$data['kategori'] = $this->Kategori_model->get_all();
+		}
+		$data['search'] = $search;
 		$this->load->view('kategori/index', $data);
 	}
 

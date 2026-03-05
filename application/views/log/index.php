@@ -13,6 +13,25 @@ $this->load->view('partials/header', array('title' => 'Log Aktivitas'));
     </div>
 <?php endif; ?>
 
+<!-- Search Form -->
+<div class="bg-white rounded-lg shadow-md p-4 mb-6">
+    <form method="GET" action="<?php echo site_url('log'); ?>" class="flex gap-2">
+        <div class="flex-grow">
+            <input type="text" name="search" placeholder="Cari berdasarkan user, aksi, deskripsi, atau tabel..." 
+                   value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>" 
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+            <i class="fas fa-search mr-2"></i> Cari
+        </button>
+        <?php if (isset($search) && $search): ?>
+            <a href="<?php echo site_url('log'); ?>" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-lg transition">
+                <i class="fas fa-times mr-2"></i> Bersihkan
+            </a>
+        <?php endif; ?>
+    </form>
+</div>
+
 <?php if (!empty($logs)): ?>
     <?php
     $columns = [

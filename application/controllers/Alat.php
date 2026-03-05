@@ -15,7 +15,13 @@ class Alat extends CI_Controller {
 
 	public function index()
 	{
-		$data['alat'] = $this->Alat_model->get_all();
+		$search = $this->input->get('search');
+		if ($search) {
+			$data['alat'] = $this->Alat_model->search($search);
+		} else {
+			$data['alat'] = $this->Alat_model->get_all();
+		}
+		$data['search'] = $search;
 		$this->load->view('alat/index', $data);
 	}
 
